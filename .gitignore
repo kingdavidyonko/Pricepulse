@@ -1,0 +1,9 @@
+node_modules/
+frontend/node_modules/
+package-lock.json
+frontend/package-lock.json
+demo/seed-visuals.json
+.idea/
+.vscode/
+dist/
+.DS_Store

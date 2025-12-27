@@ -1,0 +1,28 @@
+{
+  "name": "pricepulse-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && next dev -p 3000",
+    "build": "cd frontend && next build",
+    "start": "cd frontend && next start",
+    "test": "jest --passWithNoTests",
+    "test:unit": "jest --passWithNoTests --testPathPattern=tests/unit|tests/components",
+    "e2e:playwright": "playwright test",
+    "k6": "k6 run load/k6-script.js"
+  },
+  "workspaces": [],
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "html2canvas": "^1.4.1",
+    "lodash": "^4.17.21"
+  }
+}
