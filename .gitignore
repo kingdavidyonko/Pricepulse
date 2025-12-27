@@ -7,3 +7,4 @@ demo/seed-visuals.json
 .vscode/
 dist/
 .DS_Store
+node_modules/\nfrontend/node_modules/\n
