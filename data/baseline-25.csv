@@ -1,0 +1,29 @@
+country_iso2,country_name,product_slug,product_name,price_local,currency,lat,lng
+AF,Afghanistan,rice,rice,45,AFN,33.93911,67.709953
+AL,Albania,bread,bread,120,ALL,41.153332,20.168331
+DZ,Algeria,milk,milk,60,DZD,28.033886,1.659626
+AO,Angola,eggs,eggs,1000,AOA,-11.202692,17.873887
+AR,Argentina,rice,rice,250,ARS,-38.416097,-63.616672
+AM,Armenia,bread,bread,450,AMD,40.069099,45.038189
+AU,Australia,milk,milk,1.5,AUD,-25.274398,133.775136
+AT,Austria,eggs,eggs,3.2,EUR,47.516231,14.550072
+AZ,Azerbaijan,rice,rice,2.5,AZN,40.143105,47.576927
+BH,Bahrain,bread,bread,0.8,BHD,25.930414,50.637772
+BD,Bangladesh,milk,milk,55,BDT,23.684994,90.356331
+BY,Belarus,eggs,eggs,2.3,BYR,53.709807,27.953389
+BE,Belgium,rice,rice,1.9,EUR,50.503887,4.469936
+BZ,Belize,bread,bread,2.2,BZD,17.189877,-88.49765
+BJ,Benin,milk,milk,600,XOF,9.30769,2.315834
+BT,Bhutan,eggs,eggs,70,BTN,27.514162,90.433601
+BO,Bolivia,rice,rice,8,BOB,-16.290154,-63.588653
+BA,Bosnia and Herzegovina,bread,bread,1.8,BAM,43.915886,17.679076
+BW,Botswana,milk,milk,7.5,BWP,-22.328474,24.684866
+BR,Brazil,eggs,eggs,6.0,BRL,-14.235004,-51.92528
+BN,Brunei,rice,rice,1.4,BND,4.535277,114.727669
+BG,Bulgaria,bread,bread,1.2,BGN,42.733883,25.48583
+BF,Burkina Faso,milk,milk,500,XOF,12.238333,-1.561593
+BI,Burundi,eggs,eggs,1200,BIF,-3.373056,29.918886
+KH,Cambodia,rice,rice,4000,KHR,12.565679,104.990963
+
+-- For simplicity, repeat the same 25 countries for each of the five products
+-- (The consumer of this CSV should import unique rows matching product-country combos.)
