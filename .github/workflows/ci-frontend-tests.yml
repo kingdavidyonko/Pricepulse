@@ -66,6 +66,19 @@ jobs:
           cat test-results/jest-summary.json
 
       - name: Upload test logs and artifacts
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci || npm install
+
+      - name: Run unit tests
+        run: |
+          cd frontend
+          npm test --silent
+        env:
+          CI: true
+
+      - name: Upload test logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -84,3 +97,4 @@ jobs:
           test -f frontend/npm-install.log && tail -n 200 frontend/npm-install.log || true
           echo "==== tests json summary ===="
           cat frontend/test-results/jest-summary.json || true
+          path: frontend/test-results || frontend/jest-output.log || frontend/coverage || frontend/.output || frontend/**/jest*.log
