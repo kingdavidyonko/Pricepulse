@@ -9,5 +9,13 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts","**/*.tsx","frontend/src/**/*"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "frontend/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "supabase"
+  ]
 }

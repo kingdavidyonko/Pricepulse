@@ -11,8 +11,8 @@
  * Scheduling: Configure a cron trigger in Supabase to call this function weekly.
  */
 
-import fetch from 'node-fetch';
-import { computeWeeklyAggregate, pctChange } from '../../lib/aggregator';
+// fetch is available globally in Deno (Supabase Edge Functions runtime)
+import { computeWeeklyAggregate, pctChange } from '../../lib/aggregator.ts';
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
@@ -22,7 +22,7 @@ function isoWeekStart(date: Date) {
   const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   const day = d.getUTCDay() || 7; // Sunday=0 -> 7
   d.setUTCDate(d.getUTCDate() - day + 1);
-  return d.toISOString().slice(0,10);
+  return d.toISOString().slice(0, 10);
 }
 
 async function fetchSubmissions(week_start: string) {
@@ -30,7 +30,7 @@ async function fetchSubmissions(week_start: string) {
   const from = week_start;
   const toDate = new Date(week_start + 'T00:00:00Z');
   toDate.setUTCDate(toDate.getUTCDate() + 7);
-  const to = toDate.toISOString().slice(0,10);
+  const to = toDate.toISOString().slice(0, 10);
   const url = `${SUPABASE_URL}/rest/v1/price_submissions?select=product_id,country_id,price_usd&created_at=gte.${from}&created_at=lt.${to}`;
   const r = await fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } });
   return r.json();
@@ -38,7 +38,7 @@ async function fetchSubmissions(week_start: string) {
 
 async function insertAggregate(row: any) {
   const url = `${SUPABASE_URL}/rest/v1/aggregates_weekly`;
-  const r = await fetch(url, { method: 'POST', headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type':'application/json' }, body: JSON.stringify(row) });
+  const r = await fetch(url, { method: 'POST', headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(row) });
   return r.json();
 }
 
@@ -71,7 +71,7 @@ export default async function handler(req: any, res: any) {
       // fetch previous week's median to compute inflation (best-effort)
       const prevWeekDate = new Date(week_start + 'T00:00:00Z');
       prevWeekDate.setUTCDate(prevWeekDate.getUTCDate() - 7);
-      const prevWeek = prevWeekDate.toISOString().slice(0,10);
+      const prevWeek = prevWeekDate.toISOString().slice(0, 10);
       const prevUrl = `${SUPABASE_URL}/rest/v1/aggregates_weekly?select=median_price_usd&country_id=eq.${country_id}&product_id=eq.${product_id}&week_start=eq.${prevWeek}`;
       const prevRes = await fetch(prevUrl, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } });
       const prevRows = await prevRes.json();
@@ -80,16 +80,16 @@ export default async function handler(req: any, res: any) {
 
       // rolling avg 4wk (best-effort): fetch last 3 weeks + current
       const rollRows: number[] = [];
-      for (let i=0;i<4;i++){
+      for (let i = 0; i < 4; i++) {
         const d = new Date(week_start + 'T00:00:00Z');
-        d.setUTCDate(d.getUTCDate() - (7*i));
-        const ws = d.toISOString().slice(0,10);
+        d.setUTCDate(d.getUTCDate() - (7 * i));
+        const ws = d.toISOString().slice(0, 10);
         const rurl = `${SUPABASE_URL}/rest/v1/aggregates_weekly?select=median_price_usd&country_id=eq.${country_id}&product_id=eq.${product_id}&week_start=eq.${ws}`;
         const rres = await fetch(rurl, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } });
         const rr = await rres.json();
         if (Array.isArray(rr) && rr[0]) rollRows.push(Number(rr[0].median_price_usd));
       }
-      const rolling_avg = rollRows.length ? rollRows.reduce((a,b)=>a+b,0)/rollRows.length : null;
+      const rolling_avg = rollRows.length ? rollRows.reduce((a, b) => a + b, 0) / rollRows.length : null;
 
       const row = {
         country_id,
